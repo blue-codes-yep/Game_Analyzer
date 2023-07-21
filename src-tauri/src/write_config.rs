@@ -7,7 +7,7 @@ pub fn create_config_file(path: String) -> Result<(), String> {
     let config = r#"
 "Console Sample v.1"
 {
- "uri" "http://127.0.0.1:3000"
+ "uri" "http://127.0.0.1:8080/update"
  "timeout" "5.0"
  "buffer"  "0.1"
  "throttle" "0.5"
