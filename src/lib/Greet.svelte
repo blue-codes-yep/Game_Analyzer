@@ -1,19 +1,17 @@
 <script lang="ts">
-  import { invoke } from "@tauri-apps/api/tauri"
+  import { dialog, invoke } from "@tauri-apps/api";
 
-  let name = "";
-  let greetMsg = ""
+  async function selectDirectory() {
+    const path = await dialog.open({ directory: true });
+    console.log(path);
 
-  async function greet(){
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    greetMsg = await invoke("greet", { name })
+    // Call the create_config command with the selected path
+    if (typeof path === 'string') {
+      invoke('create_config', { args: [path] });
+    }
   }
 </script>
 
 <div>
-  <form class="row" on:submit|preventDefault={greet}>
-    <input id="greet-input" placeholder="Enter a name..." bind:value={name} />
-    <button type="submit">Greet</button>
-  </form>
-  <p>{greetMsg}</p>
+  <button on:click={selectDirectory}>Select CS:GO Directory</button>
 </div>
