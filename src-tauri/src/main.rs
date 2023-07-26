@@ -4,6 +4,7 @@
 mod db;
 mod server;
 mod write_config;
+mod game_data;
 
 use actix_web::rt::Runtime;
 use serde_json::Value;
@@ -36,9 +37,11 @@ fn get_game_state(state: tauri::State<SharedState>) -> Option<Value> {
 
 fn main() {
     env_logger::init();
-
+    let database = db::Database::new().expect("Failed to create database");
+    
     let state = SharedState {
         game_state: Mutex::new(None),
+        db: database,
     };
     // Start the Actix Web server in a separate thread / Seperate thread dedicated to backend tasks
     thread::spawn(|| {
